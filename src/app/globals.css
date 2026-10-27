@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Figma'dagi Cardinar ranglari */
+@theme {
+    --color-brand-red: #E31E24;
+    --color-brand-black: #1E1E1E;
+    --color-brand-blue: #2F80ED;
+    --color-brand-primary: #0057FF;
+    --color-surface: #F5F5F5;
+    --color-line: #E6E6E6;
+    --color-muted: #7D7D7D;
+    --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+    background: #fff;
+    color: #1E1E1E;
+}
+
+/* Gorizontal karusellarda scrollbar ko'rinmasin */
+.no-scrollbar {
+    scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
