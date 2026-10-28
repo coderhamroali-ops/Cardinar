@@ -15,7 +15,7 @@ export default async function Footer() {
                         <p className="mb-4 text-white/50">Информация</p>
                         <ul className="space-y-1.5">
                             <li><Link href="/shop" className="hover:text-brand-red">Каталог</Link></li>
-                            <li><Link href="/constructor/cover" className="hover:text-brand-red">Конструктор</Link></li>
+                            <li><Link href="/konstruktor/cover" className="hover:text-brand-red">Конструктор</Link></li>
                             <li><Link href="/branches" className="hover:text-brand-red">Где купить?</Link></li>
                         </ul>
                     </div>

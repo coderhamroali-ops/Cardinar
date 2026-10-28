@@ -2,7 +2,7 @@ import {notFound} from "next/navigation";
 import {getJson} from "@/lib/api";
 import {Breadcrumbs} from "@/components/ui";
 import HelpForm from "@/components/HelpForm";
-import ConstructorView from "@/app/constructor/[category]/ConstructorView";
+import ConstructorView from "@/app/konstruktor/[category]/ConstructorView";
 
 const TITLES = {cover: "Конструктор чехлов", carpet: "Конструктор поликов"};
 

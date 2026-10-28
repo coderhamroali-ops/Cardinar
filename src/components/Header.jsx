@@ -15,13 +15,13 @@ export const CATALOG_LINKS = [
 ];
 
 export const CONSTRUCTOR_LINKS = [
-    {href: "/constructor/cover", label: "Конструктор чехлов"},
-    {href: "/constructor/carpet", label: "Конструктор поликов"},
+    {href: "/konstruktor/cover", label: "Конструктор чехлов"},
+    {href: "/konstruktor/carpet", label: "Конструктор поликов"},
 ];
 
 const NAV = [
     {label: "Каталог", href: "/shop", children: CATALOG_LINKS},
-    {label: "Конструктор", href: "/constructor/cover", children: CONSTRUCTOR_LINKS},
+    {label: "Конструктор", href: "/konstruktor/cover", children: CONSTRUCTOR_LINKS},
     {label: "Где купить?", href: "/branches"},
     {label: "Контакты", href: "/contacts"},
 ];

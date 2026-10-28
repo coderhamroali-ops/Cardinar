@@ -15,7 +15,7 @@ Figma dizayni asosida qilingan avtochexol va poliklar internet-do'koni.
 | `/` | главная — hero, promo bloklar, mashhur va premium mahsulotlar |
 | `/shop` | Product shop — filtr paneli, pagination, qidiruv |
 | `/product/[id]` | Product detail — galereya, avtomobil modeli, "Купить в один клик" |
-| `/constructor/cover`, `/constructor/carpet` | constructor — rang va material tanlash, JPG saqlash, ariza |
+| `/konstruktor/cover`, `/konstruktor/carpet` | constructor — rang va material tanlash, JPG saqlash, ariza |
 | `/branches` | Где купить? — do'konlar jadvali va xarita |
 | `/contacts` | Contact Us |
 | `/login`, `/register`, `/logout` | authorization, registration, exit |
