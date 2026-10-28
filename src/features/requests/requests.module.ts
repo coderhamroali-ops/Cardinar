@@ -1,36 +1,24 @@
-import { Body, Controller, Module, Post } from '@nestjs/common';
-import { ApiProperty, ApiPropertyOptional, ApiTags, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator';
-import { AdminCrudController } from '../../core/crud.controller';
-import { CurrentUser, OptionalAuth, TokenPayload } from '../../core/decorators';
-import { RequestEntity } from './request.entity';
-
-export const PHONE_REGEX = /^\+?[0-9\s()-]{7,16}$/;
-
-class CreateRequestDto {
-  @ApiProperty() @IsString() @MinLength(2) @MaxLength(64) fullName: string;
-  @ApiProperty({ example: '+998901234567' }) @Matches(PHONE_REGEX) phoneNumber: string;
-  @ApiPropertyOptional() @IsOptional() @IsEmail() @MaxLength(64) email?: string;
-  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(2000) comments?: string;
-}
-class UpdateRequestDto extends PartialType(CreateRequestDto) {}
-
-@ApiTags('public / requests')
-@Controller('public/requests')
-class RequestsPublicController {
-  // Mehmon ham yuborishi mumkin; token bo'lsa ariza foydalanuvchiga bog'lanadi
-  @OptionalAuth()
-  @Post()
-  async create(@Body() payload: CreateRequestDto, @CurrentUser() user?: TokenPayload) {
-    const request = await RequestEntity.create({ ...payload, userId: user?.sub }).save();
-    return { id: request.id };
-  }
-}
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RequestEntity } from './entities/request.entity';
+import { RequestsAdminController } from './requests/admin/requests-admin.controller';
+import { RequestsPublicController } from './requests/public/requests-public.controller';
+import { GetAllRequestsHandler } from './requests/admin/get-all-requests/get-all-requests.handler';
+import { GetOneRequestsHandler } from './requests/admin/get-one-requests/get-one-requests.handler';
+import { DeleteRequestsHandler } from './requests/admin/delete-requests/delete-requests.handler';
+import { CreateRequestsPublicHandler } from './requests/public/create-requests/create-requests.handler';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([RequestEntity])],
   controllers: [
+    RequestsAdminController,
     RequestsPublicController,
-    AdminCrudController('requests', RequestEntity, CreateRequestDto, UpdateRequestDto, { relations: ['user'] }),
+  ],
+  providers: [
+    GetAllRequestsHandler,
+    GetOneRequestsHandler,
+    DeleteRequestsHandler,
+    CreateRequestsPublicHandler,
   ],
 })
 export class RequestsModule {}

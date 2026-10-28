@@ -3,20 +3,23 @@ import * as bcrypt from 'bcrypt';
 import { BaseEntity, FindOptionsWhere } from 'typeorm';
 import { AppDataSource } from '../data-source';
 import { BranchType, CustomCategory, PartType, ProductStatus } from '../core/enum/enum';
-import { BranchEntity } from '../features/branches/branch.entity';
-import {
-  ArticulEntity,
-  CarMakeEntity,
-  CarModelEntity,
-  CategoryEntity,
-  ColorEntity,
-  ProductColorEntity,
-  ProductEntity,
-  ProductImageEntity,
-} from '../features/catalog/catalog.entity';
-import { CustomModelEntity, MaterialEntity, PartEntity } from '../features/constructor/constructor.entity';
-import { BannerEntity, PhoneNumberEntity, SocialLinkEntity, StaticInfoEntity } from '../features/site/site.entity';
-import { UserEntity } from '../features/users/user.entity';
+import { ArticulEntity } from '../features/articuls/entities/articul.entity';
+import { BannerEntity } from '../features/banners/entities/banner.entity';
+import { BranchEntity } from '../features/branches/entities/branch.entity';
+import { CarMakeEntity } from '../features/car-makes/entities/car-make.entity';
+import { CarModelEntity } from '../features/car-models/entities/car-model.entity';
+import { CategoryEntity } from '../features/categories/entities/category.entity';
+import { ColorEntity } from '../features/colors/entities/color.entity';
+import { CustomModelEntity } from '../features/custom-models/entities/custom-model.entity';
+import { MaterialEntity } from '../features/materials/entities/material.entity';
+import { PartEntity } from '../features/parts/entities/part.entity';
+import { PhoneNumberEntity } from '../features/phone-numbers/entities/phone-number.entity';
+import { ProductColorEntity } from '../features/product-colors/entities/product-color.entity';
+import { ProductImageEntity } from '../features/product-images/entities/product-image.entity';
+import { ProductEntity } from '../features/products/entities/product.entity';
+import { SocialLinkEntity } from '../features/social-links/entities/social-link.entity';
+import { StaticInfoEntity } from '../features/static-info/entities/static-info.entity';
+import { UserEntity } from '../features/users/entities/user.entity';
 
 // Ma'lumotlar Figma'dagi Cardinar.uz dizaynidan olingan. Rasmlar: uploads/seed/.
 // Qayta ishga tushirilsa dublikat yaratmaydi: yozuv topilsa yangilanadi.

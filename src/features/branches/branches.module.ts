@@ -1,45 +1,28 @@
-import { Controller, Get, Module, Query } from '@nestjs/common';
-import { ApiProperty, ApiPropertyOptional, ApiTags, PartialType } from '@nestjs/swagger';
-import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
-import { AdminCrudController } from '../../core/crud.controller';
-import { BranchType } from '../../core/enum/enum';
-import { BranchEntity } from './branch.entity';
-
-class CreateBranchDto {
-  @ApiProperty() @IsString() @MaxLength(128) title: string;
-  @ApiProperty() @IsString() @MaxLength(128) address: string;
-  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(64) district?: string;
-  @ApiProperty() @IsString() @MaxLength(64) region: string;
-  @ApiProperty() @IsString() @MaxLength(16) phoneNumber: string;
-  @ApiProperty() @IsNumber() longitude: number;
-  @ApiProperty() @IsNumber() latitude: number;
-  @ApiPropertyOptional() @IsOptional() @IsBoolean() isActive?: boolean;
-  @ApiProperty({ enum: BranchType }) @IsEnum(BranchType) branchType: BranchType;
-}
-class UpdateBranchDto extends PartialType(CreateBranchDto) {}
-
-class BranchFilter {
-  @ApiPropertyOptional({ enum: BranchType }) @IsOptional() @IsEnum(BranchType) branchType?: BranchType;
-  @ApiPropertyOptional() @IsOptional() @IsString() region?: string;
-}
-
-// "Где купить?" sahifasi: rasmiy do'konlar va hamkorlar
-@ApiTags('public / branches')
-@Controller('public/branches')
-class BranchesPublicController {
-  @Get()
-  list(@Query() filter: BranchFilter) {
-    return BranchEntity.find({
-      where: { isActive: true, branchType: filter.branchType, region: filter.region },
-      order: { branchType: 'ASC', id: 'ASC' },
-    });
-  }
-}
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { BranchEntity } from './entities/branch.entity';
+import { BranchesAdminController } from './branches/admin/branches-admin.controller';
+import { BranchesPublicController } from './branches/public/branches-public.controller';
+import { CreateBranchesHandler } from './branches/admin/create-branches/create-branches.handler';
+import { GetAllBranchesHandler } from './branches/admin/get-all-branches/get-all-branches.handler';
+import { GetOneBranchesHandler } from './branches/admin/get-one-branches/get-one-branches.handler';
+import { UpdateBranchesHandler } from './branches/admin/update-branches/update-branches.handler';
+import { DeleteBranchesHandler } from './branches/admin/delete-branches/delete-branches.handler';
+import { GetAllBranchesPublicHandler } from './branches/public/get-all-branches/get-all-branches.handler';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([BranchEntity])],
   controllers: [
+    BranchesAdminController,
     BranchesPublicController,
-    AdminCrudController('branches', BranchEntity, CreateBranchDto, UpdateBranchDto),
+  ],
+  providers: [
+    CreateBranchesHandler,
+    GetAllBranchesHandler,
+    GetOneBranchesHandler,
+    UpdateBranchesHandler,
+    DeleteBranchesHandler,
+    GetAllBranchesPublicHandler,
   ],
 })
 export class BranchesModule {}

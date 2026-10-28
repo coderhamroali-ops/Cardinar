@@ -10,24 +10,45 @@ Katalog, filtrlar, savat, buyurtmalar, filiallar, arizalar va chexol/polik konst
 - **JWT** autentifikatsiya, **bcrypt**
 - **Swagger** — `http://localhost:4000/swagger`
 
-## Tuzilish
+## Arxitektura — Vertical Slice
+
+Har bir jadval o'z feature papkasida. Feature ichida entity, module va har bir amal
+(`create`, `get-all`, `get-one`, `update`, `delete` ...) alohida `handler` va `request` fayli bilan:
 
 ```
 src/
-  core/        # BaseModel, enumlar, AuthGuard, umumiy admin CRUD, pagination
+  core/
+    configs/       # swagger, multer
+    decorators/    # @Auth, @OptionalAuth, @CurrentUser
+    guards/        # AuthGuard: /admin/* — faqat admin, @Auth() — tizimga kirgan foydalanuvchi
+    enum/
   features/
-    site/          # staticInfo (singleton), banners, phoneNumbers, socialLinks
-    users/         # auth: register, login, me + admin/users
-    branches/      # "Где купить?" — rasmiy do'konlar va hamkorlar
-    requests/      # "Нужна помощь", "Контакты", "Купить в один клик" arizalari
-    catalog/       # colors, carMakes, carModels, categories, products, images, articuls
-    cart/          # foydalanuvchi savati
-    orders/        # checkout va buyurtmalar tarixi
-    constructor/   # materials, customModels, parts, customProducts
-    uploads/       # admin rasm yuklash
-  seed/        # Figma dizaynidagi ma'lumotlar
+    common/        # pagination, paginate(), saveOrConflict(), PHONE_REGEX
+    products/
+      entities/product.entity.ts
+      products.module.ts
+      products/
+        admin/
+          products-admin.controller.ts
+          create-products/   create-products.handler.ts, create-products.request.ts
+          get-all-products/  get-all-products.handler.ts, get-all-products.request.ts
+          get-one-products/  get-one-products.handler.ts
+          update-products/   update-products.handler.ts, update-products.request.ts
+          delete-products/   delete-products.handler.ts
+        public/
+          products-public.controller.ts
+          get-all-products/      # filtrlar, saralash, pagination
+          get-one-product/
+          get-similar-products/
+    ...                # har bir jadval uchun shunday feature
+  seed/                # Figma dizaynidagi ma'lumotlar
   migrations/
 ```
+
+Featurelar: `auth`, `users`, `site`, `static-info`, `banners`, `phone-numbers`, `social-links`,
+`branches`, `requests`, `colors`, `car-makes`, `car-models`, `categories`, `products`,
+`product-images`, `articuls`, `product-colors`, `cart`, `orders`, `materials`, `custom-models`,
+`parts`, `custom-products`, `uploads`.
 
 ## Ruxsatlar
 
@@ -37,7 +58,9 @@ src/
 | `/cart/*`, `/orders/*`, `/auth/me` | tizimga kirgan foydalanuvchi |
 | `/admin/*` | faqat `isAdmin = true` |
 
-Har bir jadval uchun admin CRUD: `GET /admin/<nom>`, `GET/PATCH/DELETE /admin/<nom>/:id`, `POST /admin/<nom>`.
+Har bir jadval uchun admin CRUD:
+`POST /admin/<nom>/create`, `GET /admin/<nom>/list`, `GET /admin/<nom>/:id`,
+`PATCH /admin/<nom>/update/:id`, `DELETE /admin/<nom>/delete/:id`.
 
 ## Ishga tushirish
 
